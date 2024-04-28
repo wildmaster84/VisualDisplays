@@ -1,6 +1,8 @@
 package me.wildmaster84;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +19,8 @@ public class ImageDisplays extends JavaPlugin {
 	
 	public void onEnable() {
 		Location loc = new Location(Bukkit.getWorld("world"), -1, 109, 39);
-		loadImage(loc, new File(this.getDataFolder(), "image.png"));
+		
+		loadImage(loc, new File(this.getDataFolder(), "fnaf.png"));
 	}
 	
 	
@@ -25,26 +28,26 @@ public class ImageDisplays extends JavaPlugin {
 	public void loadImage(Location loc, File imagePath) {
         try {
             // Load the image
-            BufferedImage image = ImageIO.read(imagePath);
-
+            BufferedImage rawImage = ImageIO.read(imagePath);
             // Get image width and height
-            double width = image.getWidth();
-            double height = image.getHeight();
+            double width = rawImage.getWidth();
+            double height = rawImage.getHeight();
+            BufferedImage image = flipImageVertical(rawImage);
 
             // Access pixels and extract color information
-            for (double y = 0.0; y < height; y++) {
-                for (double x = 0.0; x < width; x++) {
+            for (double y = height - 1; y >= 0; y--) { // Reverse the iteration order of y
+                for (double x = 0; x < width; x++) {
                     // Get RGB value of the pixel
                     int rgba = image.getRGB((int)x, (int)y);
                     
                     double locX = loc.getX();
                     
                     // offsets the image to hardcoded height
-                    double locY = loc.getY()+0.569;
+                    double locY = loc.getY();
                     
                     // Aligns the pixels
                     if (x != 0) locX = locX+x-(0.9751*x);
-                    if (y != 0) locY = locY-y+(0.9751*y);
+                    if (y != 0) locY = locY+y-(0.9751*y);
                     
                     // Sets the 0-0 for X and Y
                     if (x == 0) locX = locX+x;
@@ -57,16 +60,30 @@ public class ImageDisplays extends JavaPlugin {
                     TextDisplay display = (TextDisplay) Bukkit.getWorld("world").spawnEntity(loc2, EntityType.TEXT_DISPLAY);
                     // Makes a 1x1 pixel
                     display.setText("");
-                    
-                    
+
                     // Sets the pixel color
-                    display.setBackgroundColor(org.bukkit.Color.fromARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue()));
-                    
+                    display.setBackgroundColor(org.bukkit.Color.fromARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue()));                    
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 	}
+	
+	private static BufferedImage flipImageVertical(BufferedImage image) {
+        // Create a new BufferedImage for the flipped image
+        BufferedImage flippedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        // Create AffineTransform for flipping vertically
+        AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+        tx.translate(0, -image.getHeight());
+
+        // Create Graphics2D object to draw the flipped image
+        Graphics2D g2d = flippedImage.createGraphics();
+        g2d.drawImage(image, tx, null);
+        g2d.dispose();
+
+        return flippedImage;
+    }
 
 }
