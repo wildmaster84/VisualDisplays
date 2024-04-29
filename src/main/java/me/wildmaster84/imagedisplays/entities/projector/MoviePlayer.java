@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.entities;
+package me.wildmaster84.imagedisplays.entities.projector;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
-
-import me.wildmaster84.imagedisplays.entities.Projector;
 
 public class MoviePlayer implements Projector {
 	private Image pojectorImage;

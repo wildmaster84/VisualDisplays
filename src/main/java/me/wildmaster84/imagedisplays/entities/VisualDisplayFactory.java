@@ -1,5 +1,6 @@
 package me.wildmaster84.imagedisplays.entities;
 
+import me.wildmaster84.imagedisplays.entities.terminal.BlockTerminal;
 import me.wildmaster84.imagedisplays.util.ColorConversor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;

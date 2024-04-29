@@ -1,6 +1,6 @@
 package me.wildmaster84.imagedisplays;
 
-import me.wildmaster84.imagedisplays.entities.MoviePlayer;
+import me.wildmaster84.imagedisplays.entities.projector.MoviePlayer;
 import me.wildmaster84.imagedisplays.entities.TextPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
