@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.util.Transformation;
@@ -64,8 +65,9 @@ public class TextPlayer implements VisualDisplay<String> {
 	            for (double x = 0; x < width; x++) {
 	            	int rgba = image.getRGB((int)x, (int)y);
 	                Color color = new Color(rgba, true);
+	                if (sb.toString().length() > 69678*4) break;
 	                
-	                sb.append(ChatColor.of(color)).append(ChatColor.BOLD).append("▇");
+	                sb.append(ChatColor.of(color)).append(ChatColor.BOLD).append("█");
 	                if ((int)x == (int)width-1) {
 	                	sb.append("\n");
 	                }
@@ -77,7 +79,7 @@ public class TextPlayer implements VisualDisplay<String> {
 	        // This should be split into separated lines
 	        display.setText(sb.toString());
 	        
-            display.setTransformation(new Transformation(new Vector3f(0.0078f*(int)width, 0, 0), new AxisAngle4f(), new Vector3f((0.1135f/64)*(int)width, (0.0615f/64)*(int)height, 0), new AxisAngle4f()));
+            display.setTransformation(new Transformation(new Vector3f(0.0078f*(int)width, 0, 0), new AxisAngle4f(), new Vector3f((0.0615f/(int)width)*(int)width, (0.0615f/(int)width)*(int)height, 0), new AxisAngle4f()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
