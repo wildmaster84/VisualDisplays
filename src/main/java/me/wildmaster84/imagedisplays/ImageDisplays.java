@@ -1,4 +1,4 @@
-package me.wildmaster84;
+package me.wildmaster84.imagedisplays;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -16,8 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ImageDisplays extends JavaPlugin {
 	
 	public void onEnable() {
-		Location loc = new Location(Bukkit.getWorld("world"), -1, 109, 39);
-		loadImage(loc, new File(this.getDataFolder(), "image.png"));
+        Location loc = new Location(Bukkit.getWorld("world"), -1, 109, 39);
+        loadImage(loc, new File(this.getDataFolder(), "image.png"));
 	}
 	
 	
