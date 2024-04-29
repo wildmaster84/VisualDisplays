@@ -1,6 +1,7 @@
 name: ImageDisplays
 author: wildmaster84
-api-version: 1.13
+authors: [wildmaster84, anjoismysign]
+api-version: 1.19
 description: Image And Media Player In Minecraft
-main: me.wildmaster84.ImageDisplays
+main: me.wildmaster84.imagedisplays.ImageDisplays
 version: 1.0
