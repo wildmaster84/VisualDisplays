@@ -1,3 +1,6 @@
 
 /target
 *.class
+/.settings
+/target
+*.class
