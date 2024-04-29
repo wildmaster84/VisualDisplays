@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays;
+package me.wildmaster84.imagedisplays.entities;
 
 import me.wildmaster84.imagedisplays.entities.EntityController;
 import me.wildmaster84.imagedisplays.entities.Terminal;

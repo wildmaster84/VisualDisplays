@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays;
+package me.wildmaster84.imagedisplays.entities;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
