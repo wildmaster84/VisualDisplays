@@ -1,10 +1,11 @@
 package me.wildmaster84.imagedisplays;
 
+import me.wildmaster84.imagedisplays.entities.MoviePlayer;
+import me.wildmaster84.imagedisplays.entities.TextPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import java.io.File;
 
 public class ImageDisplays extends JavaPlugin {
 	MoviePlayer moviePlayer;
