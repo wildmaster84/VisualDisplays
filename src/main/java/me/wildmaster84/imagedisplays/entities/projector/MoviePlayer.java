@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -56,6 +57,12 @@ public class MoviePlayer implements Projector {
 			Bukkit.getLogger().warning("File not found: " + file.getPath());
 		}
 		
+		if (file.toPath().endsWith("gif")) {
+			loadImage();
+		} else {
+			playGIF();
+		}
+		
 	}
 	
 
@@ -97,6 +104,57 @@ public class MoviePlayer implements Projector {
                 }
         	}
         }
+	}
+	
+	private void playGIF() {
+		
+		ImageReader reader = ImageIO.getImageReaders(pojectorImage).next();
+		reader.setInput(pojectorImage);
+		
+		try {
+			int frames = reader.getNumImages(true);
+			Bukkit.getLogger().info("Loaded Frames: " + frames);
+			
+			for (int i = 0; i < frames; i++) {
+                BufferedImage frame = flipImageVertical(reader.read(i));
+                double width = frame.getWidth();
+                double height = frame.getHeight();
+                
+                Vector3f pixleSize;
+                for (double y = height - 1; y >= 0; y--) {
+                    for (double x = 0; x < width; x++) {
+                    	int rgba = frame.getRGB((int)x, (int)y);
+                        Color color = new Color(rgba, true);
+                        if (color.getAlpha() != 0) {
+                        	double locX = location.getX();                    
+                            double locY = location.getY();
+                            
+                            if (x != 0) locX = locX+x-(0.9844*x);
+                            if (y != 0) locY = locY+y-(0.9844*y);
+                            
+                            if (x == 0) locX = locX+x;
+                            if (y == 0) locY = locY+y;
+                            
+                            Location loc2 = new Location(location.getWorld(), locX, locY, location.getZ());
+                            TextDisplay display = (TextDisplay) loc2.getWorld().spawnEntity(loc2, EntityType.TEXT_DISPLAY);
+                        	displays.add(display);
+                            
+                            display.setText("");                    
+                            pixleSize = new Vector3f(0.624f, 0.624f, 0);
+                            display.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(), pixleSize, new AxisAngle4f()));
+                            display.setBackgroundColor(org.bukkit.Color.fromARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue()));
+                            
+                        }
+                	}
+                }
+                
+            }
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private static BufferedImage flipImageVertical(BufferedImage image) {
