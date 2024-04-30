@@ -7,12 +7,16 @@ import org.bukkit.Location;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class ImageDisplays extends JavaPlugin {
 	MoviePlayer moviePlayer;
 	TextPlayer textPlayer;
+	public static ImageDisplays instance;
 	
 	@Override
 	public void onEnable() {
+		instance = this;
         Location loc = new Location(Bukkit.getWorld("world"), -1, 109, 39);
         //moviePlayer = new MoviePlayer(loc);
         //moviePlayer.display(new File(this.getDataFolder(), "image.png"));
