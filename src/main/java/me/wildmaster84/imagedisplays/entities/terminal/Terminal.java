@@ -1,5 +1,6 @@
-package me.wildmaster84.imagedisplays.entities;
+package me.wildmaster84.imagedisplays.entities.terminal;
 
+import me.wildmaster84.imagedisplays.entities.VisualDisplay;
 import me.wildmaster84.imagedisplays.exception.LineLengthException;
 import org.jetbrains.annotations.NotNull;
 

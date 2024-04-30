@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import org.bukkit.entity.EntityType;
@@ -20,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 
-import me.wildmaster84.imagedisplays.entities.VisualDisplay;
 import net.md_5.bungee.api.ChatColor;
 
 public class TextPlayer implements VisualDisplay<String> {
