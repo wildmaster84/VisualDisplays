@@ -20,8 +20,8 @@ public class ImageDisplays extends JavaPlugin {
         Location loc = new Location(Bukkit.getWorld("world"), -1, 109, 39);
         //moviePlayer = new MoviePlayer(loc);
         //moviePlayer.display(new File(this.getDataFolder(), "image.png"));
-        //textPlayer = new TextPlayer(loc);
-        //textPlayer.display(new File(this.getDataFolder(), "image.png"));
+        textPlayer = new TextPlayer(loc);
+        textPlayer.display(new File(this.getDataFolder(), "image.png"), 64, 64);
 	}
 	
 	@Override

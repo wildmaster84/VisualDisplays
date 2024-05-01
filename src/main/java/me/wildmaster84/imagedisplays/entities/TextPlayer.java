@@ -1,9 +1,7 @@
 package me.wildmaster84.imagedisplays.entities;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +33,8 @@ public class TextPlayer implements Projector {
 	private Location location;
 	private ArrayList<TextDisplay> displays;
 	int currentFrame = 0;
-	List<String> pixels;
+	private List<String> pixels;
+	private Image storedImage;
 	
 	public TextPlayer(Location loc) {
 		location = loc;
@@ -47,13 +46,15 @@ public class TextPlayer implements Projector {
 	public void clear() {
 		// TODO Auto-generated method stub
 		for (TextDisplay textDisplay : displays) {
-			textDisplay.remove();
+			if (textDisplay.isValid()) textDisplay.remove();
+			
 			displays.remove(textDisplay);
 		}
 	}
 
 	@Override
 	public void display(@NotNull Image t) {
+		storedImage = t;
 		// TODO Auto-generated method stub
 	}
 	
@@ -70,11 +71,11 @@ public class TextPlayer implements Projector {
 	}
 	
 	// Ensures the GIF plays regardless
-	public void display(@NotNull File file) {
+	public void display(@NotNull File file, int x, int y) {
 		if (getFileExtension(file.getPath()).equals("gif")) {
 			display(file, false);
 		} else {
-			loadImage(file, 64, 64);
+			loadImage(file, x, y);
 		}
 		
 	}
@@ -84,33 +85,50 @@ public class TextPlayer implements Projector {
 		BufferedImage image;
 		pixels.clear();
 		try {
-			image = flipImageVertical(ImageIO.read(file));
+			image = ImageIO.read(file);
+			storedImage = image;
 			double width = image.getWidth();
 	        double height = image.getHeight();
-
-	        TextDisplay display;
-	        if (getEntityAtLocation(location) == null) {
-	        	display = (TextDisplay) location.getWorld().spawnEntity(location, EntityType.TEXT_DISPLAY);
-	        } else {
-	        	display = (TextDisplay) getEntityAtLocation(location);
-	        }
-        	
+	        double entityY = 0.0;
 	        for (double y = height - 1; y >= 0; y--) {
 	            for (double x = 0; x < width; x++) {
 	            	int rgba = image.getRGB((int)x, (int)y);
 	                Color color = new Color(rgba, true);
 	                if (pixels.size() > 69678*4) break;
 	                
-	                pixels.add(ChatColor.of(color) + "" + ChatColor.BOLD + "█" + ((int)x == (int)width-1 && (int)y != 0 ? "\n" : ""));
+	                pixels.add(ChatColor.of(color) + 
+	                		"" + 
+	                		ChatColor.BOLD + 
+	                		"\u2588"
+	                );
+	                
+	                if ((int)x == (int)width-1) {
+	                	
+	                	Location loc = new Location(location.getWorld(), location.getX(), location.getY() + (entityY/(int)height)*(int)scaleY, location.getZ());
+	                	entityY = entityY + 0.0155;
+	                	TextDisplay display = (TextDisplay) getEntityAtLocation(loc);
+	                	display.setLineWidth(String.join("", pixels).split("\n")[0].length());
+	        	        display.setBackgroundColor(org.bukkit.Color.BLACK);
+	        	        display.setText(String.join("", pixels).toString());
+	        	        
+	        	        // clears the cache for new pixels
+	        	        pixels.clear();
+	        	        
+	        	        display.setDisplayWidth(0.0001f);
+	        	        display.setDisplayHeight(0.0001f);
+	                    display.setTransformation(new Transformation(
+	                    		new Vector3f(0.0078f*(int)scaleX, 0, 0), 
+	                    		new AxisAngle4f(), 
+	                    		new Vector3f((0.0615f/(int)width)*(int)scaleX, (0.0615f/(int)height)*(int)scaleY, 0), 
+	                    		new AxisAngle4f()
+	                    ));
+	                    displays.add(display);
+	                    
+	                }
 	                
 	        	}
 	        }
-	        display.setLineWidth(String.join("", pixels).split("\n")[0].length());
 	        
-	        // This should be split into separated lines
-	        display.setText(String.join("", pixels).toString());
-	        
-            display.setTransformation(new Transformation(new Vector3f(0.0078f*(int)scaleX, 0, 0), new AxisAngle4f(), new Vector3f((0.0615f/(int)width)*(int)scaleX, (0.0615f/(int)height)*(int)scaleY, 0), new AxisAngle4f()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,6 +147,7 @@ public class TextPlayer implements Projector {
 			reader.setInput(inputStream);
 			int frames = reader.getNumImages(true);
 			Bukkit.getLogger().info("Loaded Frames: " + frames);
+
 			
 			Bukkit.getScheduler().runTaskTimer(ImageDisplays.instance, (task) -> {
 				if (currentFrame < frames) {
@@ -143,7 +162,6 @@ public class TextPlayer implements Projector {
 						currentFrame = 0;
 					}
 				}
-
 			}, 1L, 1L);
 			
 		} catch (IOException e) {}
@@ -154,51 +172,52 @@ public class TextPlayer implements Projector {
 		BufferedImage image;
 		pixels.clear();
 		try {
-			image = flipImageVertical(reader.read(frameindex));
+			image = reader.read(frameindex);
 			double width = image.getWidth();
 	        double height = image.getHeight();
-	        TextDisplay display;
-	        if (getEntityAtLocation(location) == null) {
-	        	display = (TextDisplay) location.getWorld().spawnEntity(location, EntityType.TEXT_DISPLAY);
-	        } else {
-	        	display = (TextDisplay) getEntityAtLocation(location);
-	        }
-        	
-	        for (double y = height-1; y >= 0; y--) {
+	        double entityY = 0.0;
+	        for (double y = height - 1; y >= 0; y--) {
 	            for (double x = 0; x < width; x++) {
 	            	int rgba = image.getRGB((int)x, (int)y);
 	                Color color = new Color(rgba, true);
 	                
+	                
+	                // This prevents writing excessive pixels to maliciously crash a player
 	                if (pixels.size() > 69678*4) break;
 	                
-	                pixels.add(ChatColor.of(color) + "" + ChatColor.BOLD + "█" + ((int)x == (int)width-1 && (int)y != 0 ? "\n" : ""));
+	                pixels.add(ChatColor.of(color) + "" + ChatColor.BOLD + "\u2588");
+	                
+	                if ((int)x == (int)width-1) {
+	                	// We make a new location to preserve the original one
+	                	Location loc = new Location(location.getWorld(), location.getX(), location.getY() + entityY*height, location.getZ());
+	                	entityY = entityY + 0.00003;
+	                	TextDisplay display = (TextDisplay) getEntityAtLocation(loc);
+	                	display.setLineWidth(String.join("", pixels).split("\n")[0].length());
+	        	        display.setBackgroundColor(org.bukkit.Color.BLACK);
+	        	        display.setText(String.join("", pixels).toString());
+	        	        
+	        	        pixels.clear();
+	        	        
+	        	        display.setDisplayWidth(0.0001f);
+	        	        display.setDisplayHeight(0.0001f);
+	        	        
+	                    display.setTransformation(new Transformation(
+	                    		new Vector3f(0.0078f*(int)width, 0, 0), 
+	                    		new AxisAngle4f(), 
+	                    		new Vector3f((0.0615f/(int)width)*(int)width, (0.0615f/(int)height)*(int)height, 0), 
+	                    		new AxisAngle4f()
+	                    ));
+	                    displays.add(display);
+	                    
+	                }
 	                
 	        	}
 	        }
-	        display.setLineWidth(String.join("", pixels).split("\n")[0].length());
 	        
-	        // This should be split into separated lines
-	        display.setText(String.join("", pixels).toString());
+        	
 	        
-            display.setTransformation(new Transformation(new Vector3f(0.0078f*(int)width, 0, 0), new AxisAngle4f(), new Vector3f((0.0615f/(int)width)*(int)width, (0.0615f/(int)width)*(int)height, 0), new AxisAngle4f()));
 		} catch (IOException e) {}
 		
-	}
-	
-	private static BufferedImage flipImageVertical(BufferedImage image) {
-	    // Create a new BufferedImage for the flipped image
-	    BufferedImage flippedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-	
-	    // Create AffineTransform for flipping vertically
-	    AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
-	    tx.translate(0, -image.getHeight());
-	
-	    // Create Graphics2D object to draw the flipped image
-	    Graphics2D g2d = flippedImage.createGraphics();
-	    g2d.drawImage(image, tx, null);
-	    g2d.dispose();
-	
-	    return flippedImage;
 	}
 	
 	public Entity getEntityAtLocation(Location location) {
@@ -207,6 +226,7 @@ public class TextPlayer implements Projector {
         // Use getNearbyEntities to get a list of entities near the specified location
         Collection<Entity> entities = world.getNearbyEntities(location, 0.1, 0.1, 0.1);
 
+        
         // Iterate through the list to find the entity at the exact location
         for (Entity entity : entities) {
             if (entity.getLocation().getX() == location.getX() &&
@@ -215,7 +235,7 @@ public class TextPlayer implements Projector {
                 return entity;
             }
         }
-        return null;
+        return location.getWorld().spawnEntity(location, EntityType.TEXT_DISPLAY);
     }
 	
 	private static String getFileExtension(String filePath) {
