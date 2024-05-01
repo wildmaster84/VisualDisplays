@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.entities;
+package me.wildmaster84.visualdisplays.entities;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -25,8 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 
-import me.wildmaster84.imagedisplays.ImageDisplays;
-import me.wildmaster84.imagedisplays.entities.projector.Projector;
+import me.wildmaster84.visualdisplays.VisualDisplays;
+import me.wildmaster84.visualdisplays.entities.projector.Projector;
 import net.md_5.bungee.api.ChatColor;
 
 public class TextPlayer implements Projector {
@@ -149,7 +149,7 @@ public class TextPlayer implements Projector {
 			Bukkit.getLogger().info("Loaded Frames: " + frames);
 
 			
-			Bukkit.getScheduler().runTaskTimer(ImageDisplays.instance, (task) -> {
+			Bukkit.getScheduler().runTaskTimer(VisualDisplays.instance, (task) -> {
 				if (currentFrame < frames) {
 					frame(reader, currentFrame);
 					currentFrame++;

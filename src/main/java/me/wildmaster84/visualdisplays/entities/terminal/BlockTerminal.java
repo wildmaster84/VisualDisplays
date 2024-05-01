@@ -1,7 +1,7 @@
-package me.wildmaster84.imagedisplays.entities.terminal;
+package me.wildmaster84.visualdisplays.entities.terminal;
 
-import me.wildmaster84.imagedisplays.entities.EntityController;
-import me.wildmaster84.imagedisplays.util.ColorConversor;
+import me.wildmaster84.visualdisplays.entities.EntityController;
+import me.wildmaster84.visualdisplays.util.ColorConversor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.block.Block;

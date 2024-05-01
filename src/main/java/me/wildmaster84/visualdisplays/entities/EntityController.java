@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.entities;
+package me.wildmaster84.visualdisplays.entities;
 
 public interface EntityController {
     void remove();

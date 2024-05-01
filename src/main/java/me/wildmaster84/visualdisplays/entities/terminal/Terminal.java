@@ -1,7 +1,7 @@
-package me.wildmaster84.imagedisplays.entities.terminal;
+package me.wildmaster84.visualdisplays.entities.terminal;
 
-import me.wildmaster84.imagedisplays.entities.VisualDisplay;
-import me.wildmaster84.imagedisplays.exception.LineLengthException;
+import me.wildmaster84.visualdisplays.entities.VisualDisplay;
+import me.wildmaster84.visualdisplays.exception.LineLengthException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

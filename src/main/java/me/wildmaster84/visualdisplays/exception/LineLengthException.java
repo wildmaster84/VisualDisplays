@@ -1,6 +1,6 @@
-package me.wildmaster84.imagedisplays.exception;
+package me.wildmaster84.visualdisplays.exception;
 
-import me.wildmaster84.imagedisplays.entities.terminal.Terminal;
+import me.wildmaster84.visualdisplays.entities.terminal.Terminal;
 import org.jetbrains.annotations.NotNull;
 
 public class LineLengthException extends TerminalException{

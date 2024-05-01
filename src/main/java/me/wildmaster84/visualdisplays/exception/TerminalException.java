@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.exception;
+package me.wildmaster84.visualdisplays.exception;
 
 public abstract class TerminalException extends RuntimeException {
 

@@ -1,7 +1,7 @@
-package me.wildmaster84.imagedisplays;
+package me.wildmaster84.visualdisplays;
 
-import me.wildmaster84.imagedisplays.entities.projector.MoviePlayer;
-import me.wildmaster84.imagedisplays.entities.TextPlayer;
+import me.wildmaster84.visualdisplays.entities.projector.MoviePlayer;
+import me.wildmaster84.visualdisplays.entities.TextPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -9,10 +9,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class ImageDisplays extends JavaPlugin {
+public class VisualDisplays extends JavaPlugin {
 	MoviePlayer moviePlayer;
 	TextPlayer textPlayer;
-	public static ImageDisplays instance;
+	public static VisualDisplays instance;
 	
 	@Override
 	public void onEnable() {

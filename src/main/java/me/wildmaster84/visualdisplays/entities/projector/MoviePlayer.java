@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.entities.projector;
+package me.wildmaster84.visualdisplays.entities.projector;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -8,28 +8,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.FileImageInputStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TextDisplay;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
-
-import me.wildmaster84.imagedisplays.ImageDisplays;
 
 public class MoviePlayer implements Projector {
 	private Image pojectorImage;

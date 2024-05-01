@@ -1,4 +1,4 @@
-package me.wildmaster84.imagedisplays.util;
+package me.wildmaster84.visualdisplays.util;
 
 import net.md_5.bungee.api.ChatColor;
 

@@ -1,6 +1,6 @@
-package me.wildmaster84.imagedisplays.entities.projector;
+package me.wildmaster84.visualdisplays.entities.projector;
 
-import me.wildmaster84.imagedisplays.entities.VisualDisplay;
+import me.wildmaster84.visualdisplays.entities.VisualDisplay;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.Image;
