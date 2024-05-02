@@ -28,8 +28,11 @@ public class VisualDisplayFactory {
 
     /**
      * Creates a BlockTerminal with default settings.
-     * @param at Block to create the terminal at
-     * @param facing BlockFace to determine the orientation of the terminal
+     * Entities are not persistent.
+     *
+     * @param at Block to create the terminal at. Must be a solid block.
+     * @param facing BlockFace to determine the orientation of the terminal.
+     *               Must be NORTH, EAST, SOUTH or WEST.
      * @return BlockTerminal
      */
     @NotNull
@@ -49,10 +52,11 @@ public class VisualDisplayFactory {
 
     /**
      * Creates a BlockTerminal with the specified line limit and background color.
-     * The entity is not persistent.
+     * Entities are not persistent.
      *
-     * @param at Block to create the terminal at
-     * @param facing BlockFace to determine the orientation of the terminal
+     * @param at Block to create the terminal at. Must be a solid block.
+     * @param facing BlockFace to determine the orientation of the terminal.
+     *               Must be NORTH, EAST, SOUTH or WEST.
      * @param lineLimit Maximum number of lines that can be displayed
      * @param backgroundColor Background color of the terminal
      * @param translationX X translation of the text display
