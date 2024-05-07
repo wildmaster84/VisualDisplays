@@ -61,11 +61,11 @@ public class TextPlayer implements Projector {
 	
 	// Ensures the image isnt a GIF
 	// No point in looping a static image
-	public void display(@NotNull File file, boolean loop) {
+	public void display(@NotNull File file, int x, int y, boolean loop) {
 		if (getFileExtension(file.getPath()).equals("gif")) {
-			playGIF(file, loop);
+			playGIF(file, x, y, loop);
 		} else {
-			loadImage(file, 64, 64);
+			loadImage(file, x, y);
 		}
 		
 	}
@@ -73,7 +73,7 @@ public class TextPlayer implements Projector {
 	// Ensures the GIF plays regardless
 	public void display(@NotNull File file, int x, int y) {
 		if (getFileExtension(file.getPath()).equals("gif")) {
-			display(file, false);
+			display(file, x, y, false);
 		} else {
 			loadImage(file, x, y);
 		}
@@ -136,7 +136,7 @@ public class TextPlayer implements Projector {
 		
 	}
 	
-	private void playGIF(File file, boolean loop) {
+	private void playGIF(File file, int x, int y, boolean loop) {
 		try {
 			FileImageInputStream inputStream = new FileImageInputStream(file);
 			if (!ImageIO.getImageReaders(inputStream).hasNext()) {
@@ -151,7 +151,7 @@ public class TextPlayer implements Projector {
 			
 			Bukkit.getScheduler().runTaskTimer(VisualDisplays.instance, (task) -> {
 				if (currentFrame < frames) {
-					frame(reader, currentFrame);
+					frame(reader, currentFrame, x, y);
 					currentFrame++;
 				}
 				if (currentFrame >= frames) {
@@ -168,7 +168,7 @@ public class TextPlayer implements Projector {
 		
 	}
 	
-	private void frame(ImageReader reader, int frameindex) {		
+	private void frame(ImageReader reader, int frameindex, int scaleX, int scaleY) {		
 		BufferedImage image;
 		pixels.clear();
 		try {
@@ -190,7 +190,7 @@ public class TextPlayer implements Projector {
 	                if ((int)x == (int)width-1) {
 	                	// We make a new location to preserve the original one
 	                	Location loc = new Location(location.getWorld(), location.getX(), location.getY() + entityY*height, location.getZ());
-	                	entityY = entityY + 0.00003;
+	                	entityY = entityY + 0.000245;
 	                	TextDisplay display = (TextDisplay) getEntityAtLocation(loc);
 	                	display.setLineWidth(String.join("", pixels).split("\n")[0].length());
 	        	        display.setBackgroundColor(org.bukkit.Color.BLACK);
